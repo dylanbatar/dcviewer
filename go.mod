@@ -1,8 +1,6 @@
 module dylanbatar/dcviewer
 
-go 1.21
-
-toolchain go1.21rc1
+go 1.19
 
 require github.com/wailsapp/wails/v2 v2.8.0
 

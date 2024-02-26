@@ -1,9 +1,17 @@
 import { ICompose } from '../../../../interfaces/compose';
+import { useComposeStore } from '../../../../store/compose.store';
 
-export const ComposeFile = ({ name }: ICompose) => {
+export const ComposeFile = ({
+  name,
+  createAt,
+  updateAt,
+  description,
+  image,
+}: ICompose) => {
+  const setComposeFile = useComposeStore((state) => state.setCompose);
 
   const openComposeDetail = () => {
-    console.log(`open compose detail ${name}`);
+    setComposeFile({ name, createAt, updateAt });
   };
 
   return (

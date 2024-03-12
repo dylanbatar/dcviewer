@@ -1,7 +1,9 @@
+import {UploadCompose} from '../../../../../wailsjs/go/main/App';
+
 export const AddCompose = () => {
   return (
     <div>
-      <button className="flex flex-col justify-center items-center my-8">
+      <button className="flex flex-col justify-center items-center my-8" onClick={UploadCompose}>
         <div>
           <svg
             className='w-28 h-28 text-gray-800  transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'

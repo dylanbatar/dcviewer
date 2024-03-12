@@ -41,7 +41,7 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
           <span className='sr-only'>Close menu</span>
         </button>
         <div className='py-4'>
-          <div className='mx-4 my-8 flex flex-col justify-center items-center'>
+          <div className='mx-4 my-8'>
             <svg
               className='w-28 h-28 text-gray-800 transition duration-75 dark:text-gray-400'
               aria-hidden='true'
@@ -62,21 +62,21 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
                 Information
               </h5>
               <ul>
-                <li>
-                  <p>Name</p>
-                  <p className='text-sm truncate text-center text-gray-500 uppercase dark:text-gray-400'>
+                <li className='flex items-center'>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Name</p>
+                  <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
                     {compose.name}
                   </p>
                 </li>
-                <li>
-                  <p>Create At</p>
-                  <p className='text-sm truncate text-center text-gray-500 uppercase dark:text-gray-400'>
+                <li className='flex'>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Create At</p>
+                  <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
                     {compose.createAt}
                   </p>
                 </li>
-                <li>
-                  <p>Update At</p>
-                  <p className='text-sm truncate text-center text-gray-500 uppercase dark:text-gray-400'>
+                <li className='flex'>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Update At</p>
+                  <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
                     {compose.updateAt}
                   </p>
                 </li>

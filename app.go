@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"dylanbatar/dcviewer/internal/domain"
 
@@ -48,7 +49,7 @@ func (a *App) UploadCompose() {
 	}
 
 	if selected != "" {
-		_, err = a.ReadComposeFile(selected)
+		_, err = a.ReadComposeFile(selected, false)
 		if err != nil {
 			runtime.LogDebug(a.ctx, err.Error())
 		}
@@ -59,7 +60,7 @@ func (a *App) UploadCompose() {
 
 func copyFile(fileData []byte) error {
 	uuid := uuid.New()
-	file, err := os.Create(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%v", uuid))
+	file, err := os.Create(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%v.yml", uuid))
 
 	if err != nil {
 		fmt.Println("was not able to create file", err.Error())
@@ -76,10 +77,12 @@ func copyFile(fileData []byte) error {
 	return nil
 }
 
-func (a *App) ReadComposeFile(filePath string) (compose *domain.Compose, err error) {
+func (a *App) ReadComposeFile(filePath string, needsCopy bool) (compose *domain.Compose, err error) {
 	yamlFile, err := os.ReadFile(filePath)
 
-	copyFile(yamlFile)
+	if needsCopy {
+		copyFile(yamlFile)
+	}
 
 	if err != nil {
 		runtime.LogDebug(a.ctx, err.Error())
@@ -90,4 +93,27 @@ func (a *App) ReadComposeFile(filePath string) (compose *domain.Compose, err err
 	yaml.Unmarshal(yamlFile, &composeFile)
 
 	return &composeFile, nil
+}
+
+func (a *App) ListComposes() []domain.DcViewerCompose {
+	files, err := os.ReadDir("/Users/dylanbatar/dcviewer/composes")
+
+	if err != nil {
+		runtime.LogDebug(a.ctx, err.Error())
+	}
+
+	var composeFiles []domain.DcViewerCompose
+	for _, file := range files {
+		fmt.Println(file.Name())
+		var dcCompose = domain.DcViewerCompose{
+			Name:        file.Name(),
+			Description: "description",
+			Image:       "image",
+			CreateAt:    time.Now().Format(time.RFC3339),
+			UpdateAt:    time.Now().Format(time.RFC3339),
+		}
+		composeFiles = append(composeFiles, dcCompose)
+	}
+
+	return composeFiles
 }

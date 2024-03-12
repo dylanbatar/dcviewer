@@ -3,19 +3,19 @@ import { ComposeFileList } from './components/ComposeFileList';
 import { ICompose } from '../../../interfaces/compose';
 import { ComposeDetail } from './components/ComposeDetail';
 import { useComposeStore } from '../../../store/compose.store';
+import { ListComposes } from '../../../../wailsjs/go/main/App';
 
 export const Composes = () => {
   const [collections, setCollections] = useState<ICompose[]>([]);
   const compose = useComposeStore((state) => state.compose);
 
   useEffect(() => {
-    setCollections([
-      {
-        name: 'Mysql + Redis',
-        createAt: Date(),
-        updateAt: Date(),
-      },
-    ]);
+    async function fetchComposes() {
+      const composes = await ListComposes() as ICompose[];
+      setCollections(composes);
+    }
+
+    fetchComposes();
   }, []);
 
   return (

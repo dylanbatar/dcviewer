@@ -1,9 +1,15 @@
 import dayjs from 'dayjs';
 import { ICompose } from '../../../../interfaces/compose';
 import { useComposeStore } from '../../../../store/compose.store';
+import { useEffect } from 'react';
+import { ReadComposeFile } from '../../../../../wailsjs/go/main/App';
 
 export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
   const closeComposeDetail = useComposeStore((state) => state.clearCompose);
+
+  useEffect(() => {
+    ReadComposeFile(compose.name);
+  }, []);
 
   return (
     <>
@@ -57,26 +63,30 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
               />
             </svg>
             <div>
-              <h5
-                className='text-base font-semibold text-gray-500 uppercase dark:text-gray-400 mb-2'
-              >
+              <h5 className='text-base font-semibold text-gray-500 uppercase dark:text-gray-400 mb-2'>
                 Information
               </h5>
               <ul className='mb-4'>
                 <li className='flex items-center'>
-                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Name</p>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Name
+                  </p>
                   <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
                     {compose.name}
                   </p>
                 </li>
                 <li className='flex'>
-                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Create At</p>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Create At
+                  </p>
                   <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
                     {dayjs(compose.createAt).format('YYYY-MM-DD')}
                   </p>
                 </li>
                 <li className='flex'>
-                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Update At</p>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Update At
+                  </p>
                   <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
                     {dayjs(compose.updateAt).format('YYYY-MM-DD')}
                   </p>
@@ -84,11 +94,43 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
               </ul>
             </div>
             <div>
-              <h5
-                className='text-base font-semibold text-gray-500 uppercase dark:text-gray-400'
-              >
+              <h5 className='text-base font-semibold text-gray-500 uppercase dark:text-gray-400 mb-2'>
                 Content file
               </h5>
+              <ul className='mb-4'>
+                <li className='mb-2'>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Version
+                  </p>
+                  <p className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                    {compose.name}
+                  </p>
+                </li>
+                <li className='mb-2'>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Services
+                  </p>
+                  <p className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                    {dayjs(compose.createAt).format('YYYY-MM-DD')}
+                  </p>
+                </li>
+                <li className='mb-2'>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Volumns
+                  </p>
+                  <p className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                    {dayjs(compose.updateAt).format('YYYY-MM-DD')}
+                  </p>
+                </li>
+                <li>
+                  <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                    Networks
+                  </p>
+                  <p className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                    {dayjs(compose.updateAt).format('YYYY-MM-DD')}
+                  </p>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

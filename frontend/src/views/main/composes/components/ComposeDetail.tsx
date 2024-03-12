@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { ICompose } from '../../../../interfaces/compose';
 import { useComposeStore } from '../../../../store/compose.store';
 
@@ -57,11 +58,11 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
             </svg>
             <div>
               <h5
-                className='text-base font-semibold text-gray-500 uppercase dark:text-gray-400'
+                className='text-base font-semibold text-gray-500 uppercase dark:text-gray-400 mb-2'
               >
                 Information
               </h5>
-              <ul>
+              <ul className='mb-4'>
                 <li className='flex items-center'>
                   <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Name</p>
                   <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
@@ -71,13 +72,13 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
                 <li className='flex'>
                   <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Create At</p>
                   <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
-                    {compose.createAt}
+                    {dayjs(compose.createAt).format('YYYY-MM-DD')}
                   </p>
                 </li>
                 <li className='flex'>
                   <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>Update At</p>
                   <p className='text-sm truncate text-center text-gray-500 dark:text-gray-400'>
-                    {compose.updateAt}
+                    {dayjs(compose.updateAt).format('YYYY-MM-DD')}
                   </p>
                 </li>
               </ul>

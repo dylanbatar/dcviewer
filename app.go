@@ -47,14 +47,19 @@ func (a *App) UploadCompose() {
 		return
 	}
 
-	_, err = a.ReadComposeFile(selected)
+	if selected != "" {
+		_, err = a.ReadComposeFile(selected)
+		if err != nil {
+			runtime.LogDebug(a.ctx, err.Error())
+		}
+	}
 
 	runtime.LogDebug(a.ctx, "Selected file: "+selected)
 }
 
 func copyFile(fileData []byte) error {
 	uuid := uuid.New()
-	file, err := os.Create(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%v.yml", uuid))
+	file, err := os.Create(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%v", uuid))
 
 	if err != nil {
 		fmt.Println("was not able to create file", err.Error())

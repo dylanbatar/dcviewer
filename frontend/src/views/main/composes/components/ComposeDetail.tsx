@@ -8,7 +8,7 @@ export const ComposeDetail: React.FC<{ compose: ICompose }> = ({ compose }) => {
   const closeComposeDetail = useComposeStore((state) => state.clearCompose);
 
   useEffect(() => {
-    ReadComposeFile(compose.name);
+    // ReadComposeFile(compose.name);
   }, []);
 
   return (

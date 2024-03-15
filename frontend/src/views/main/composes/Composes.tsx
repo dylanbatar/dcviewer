@@ -9,12 +9,12 @@ export const Composes = () => {
   const [collections, setCollections] = useState<ICompose[]>([]);
   const compose = useComposeStore((state) => state.compose);
 
-  useEffect(() => {
-    async function fetchComposes() {
-      const composes = await ListComposes() as ICompose[];
-      setCollections(composes);
-    }
+  const fetchComposes = async () => {
+    const composes = (await ListComposes()) as ICompose[];
+    setCollections(composes);
+  };
 
+  useEffect(() => {
     fetchComposes();
   }, []);
 

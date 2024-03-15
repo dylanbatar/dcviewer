@@ -13,7 +13,7 @@ export const ComposeFileList: React.FC<{ composes: ICompose[] }> = ({
         </div>
       )}
 
-      <div className='flex'>
+      <div className='flex flex-wrap'>
         {composes.map((file, index) => (
           <>
             <div key={index}>

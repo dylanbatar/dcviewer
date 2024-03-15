@@ -32,7 +32,7 @@ export const ComposeFile = ({
           clipRule='evenodd'
         />
       </svg>
-      <p className='text-sm truncate hover:overflow-visible hover:whitespace-normal text-center w-32'>
+      <p className='text-sm hover:whitespace-normal text-center w-32'>
         {name}
       </p>
     </div>

@@ -6,4 +6,4 @@ export function ListComposes():Promise<Array<domain.DcViewerCompose>>;
 
 export function ReadComposeFile(arg1:string,arg2:boolean):Promise<domain.Compose>;
 
-export function UploadCompose():Promise<void>;
+export function UploadCompose():Promise<domain.DcViewerCompose>;

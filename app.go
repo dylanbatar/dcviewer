@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"dylanbatar/dcviewer/internal/domain"
@@ -27,7 +28,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) UploadCompose() {
+func (a *App) UploadCompose() *domain.DcViewerCompose {
 	selected, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
 		Title:            "Select a file",
 		DefaultDirectory: "/Users/dylanbatar",
@@ -45,17 +46,20 @@ func (a *App) UploadCompose() {
 
 	if err != nil {
 		runtime.LogDebug(a.ctx, err.Error())
-		return
+		return nil
 	}
 
 	if selected != "" {
-		_, err = a.ReadComposeFile(selected, false)
+		_, err = a.ReadComposeFile(selected, true)
 		if err != nil {
 			runtime.LogDebug(a.ctx, err.Error())
 		}
 	}
 
 	runtime.LogDebug(a.ctx, "Selected file: "+selected)
+	var dcViewerComposer = formtDcViewerComposer(selected, "new file", "image")
+
+	return &dcViewerComposer
 }
 
 func copyFile(fileData []byte) error {
@@ -104,16 +108,34 @@ func (a *App) ListComposes() []domain.DcViewerCompose {
 
 	var composeFiles []domain.DcViewerCompose
 	for _, file := range files {
-		fmt.Println(file.Name())
-		var dcCompose = domain.DcViewerCompose{
-			Name:        file.Name(),
-			Description: "description",
-			Image:       "image",
-			CreateAt:    time.Now().Format(time.RFC3339),
-			UpdateAt:    time.Now().Format(time.RFC3339),
+		splitFileName := strings.Split(file.Name(), ".")
+		extensionFile := splitFileName[len(splitFileName)-1]
+
+		if extensionFile != "yml" && extensionFile != "yaml" {
+			continue
 		}
-		composeFiles = append(composeFiles, dcCompose)
+
+		dcViewerComposer := formtDcViewerComposer(file.Name(), "description", "image")
+		composeFiles = append(composeFiles, dcViewerComposer)
 	}
 
 	return composeFiles
+}
+
+func formtDcViewerComposer(name, description, image string) domain.DcViewerCompose {
+	fileName := createFileName()
+	var dcCompose = domain.DcViewerCompose{
+		Name:        fileName,
+		Description: description,
+		Image:       image,
+		CreateAt:    time.Now().Format(time.RFC3339),
+		UpdateAt:    time.Now().Format(time.RFC3339),
+	}
+
+	return dcCompose
+}
+
+func createFileName() string {
+	uuid := uuid.New()
+	return fmt.Sprintf("%v.yml", uuid)
 }

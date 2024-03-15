@@ -8,21 +8,21 @@ export const ComposeFileList: React.FC<{ composes: ICompose[] }> = ({
   return (
     <>
       {!composes.length && (
-        <div className='flex justify-center items-center h-full'>
+        <div className='flex justify-center items-center h-[90%]'>
           <AddCompose />
         </div>
       )}
 
-      <div className='flex flex-wrap'>
-        {composes.map((file, index) => (
-          <>
+      {composes.length > 0 && (
+        <div className='flex flex-wrap'>
+          {composes.map((file, index) => (
             <div key={index}>
               <ComposeFile {...file} />
             </div>
-          </>
-        ))}
-        <AddCompose />
-      </div>
+          ))}
+          <AddCompose />
+        </div>
+      )}
     </>
   );
 };

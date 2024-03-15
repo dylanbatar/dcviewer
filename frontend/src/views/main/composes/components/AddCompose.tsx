@@ -1,9 +1,21 @@
-import {UploadCompose} from '../../../../../wailsjs/go/main/App';
+import { UploadCompose } from '../../../../../wailsjs/go/main/App';
+import { ICompose } from '../../../../interfaces/compose';
+import { useComposeStore } from '../../../../store/compose.store';
 
 export const AddCompose = () => {
+  const { setCollection } = useComposeStore();
+
+  const handleUploadCompose = async () => {
+    const newCompose = (await UploadCompose()) as ICompose;
+    setCollection([newCompose]);
+  };
+
   return (
     <div>
-      <button className="flex flex-col justify-center items-center my-8" onClick={UploadCompose}>
+      <button
+        className='flex flex-col justify-center items-center my-8'
+        onClick={handleUploadCompose}
+      >
         <div>
           <svg
             className='w-28 h-28 text-gray-800  transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'
@@ -21,7 +33,7 @@ export const AddCompose = () => {
             />
           </svg>
         </div>
-        <p className="text-sm">Add new compose</p>
+        <p className='text-sm'>Add new compose</p>
       </button>
     </div>
   );

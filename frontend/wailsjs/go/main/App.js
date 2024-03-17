@@ -6,8 +6,8 @@ export function ListComposes() {
   return window['go']['main']['App']['ListComposes']();
 }
 
-export function ReadComposeFile(arg1, arg2) {
-  return window['go']['main']['App']['ReadComposeFile'](arg1, arg2);
+export function ReadComposeFile(arg1) {
+  return window['go']['main']['App']['ReadComposeFile'](arg1);
 }
 
 export function UploadCompose() {

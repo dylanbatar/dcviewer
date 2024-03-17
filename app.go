@@ -50,19 +50,20 @@ func (a *App) UploadCompose() *domain.DcViewerCompose {
 	}
 
 	if selected != "" {
-		_, err = a.ReadComposeFile(selected, true)
+		err = copyFile(selected)
 		if err != nil {
 			runtime.LogDebug(a.ctx, err.Error())
 		}
 	}
 
 	runtime.LogDebug(a.ctx, "Selected file: "+selected)
-	var dcViewerComposer = formtDcViewerComposer(selected, "new file", "image")
+	fileNameId := createFileName()
+	var dcViewerComposer = formtDcViewerComposer(fileNameId, "new file", "image")
 
 	return &dcViewerComposer
 }
 
-func copyFile(fileData []byte) error {
+func copyFile(filePath string) error {
 	uuid := uuid.New()
 	file, err := os.Create(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%v.yml", uuid))
 
@@ -71,9 +72,20 @@ func copyFile(fileData []byte) error {
 		return err
 	}
 
+	originalFile, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("was not able to read original file", err.Error())
+		return err
+	}
+
+	if err != nil {
+		log.Println(err.Error())
+		return fmt.Errorf("error copy file to compose directory")
+	}
+
 	defer file.Close()
 
-	_, err = file.Write(fileData)
+	_, err = file.Write(originalFile)
 
 	if err != nil {
 		log.Fatal(err)
@@ -81,12 +93,10 @@ func copyFile(fileData []byte) error {
 	return nil
 }
 
-func (a *App) ReadComposeFile(filePath string, needsCopy bool) (compose *domain.Compose, err error) {
-	yamlFile, err := os.ReadFile(filePath)
+func (a *App) ReadComposeFile(fileName string) (compose *domain.Compose, err error) {
+	yamlFile, err := os.ReadFile(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%s", fileName))
 
-	if needsCopy {
-		copyFile(yamlFile)
-	}
+	fmt.Printf("%+q", yamlFile)
 
 	if err != nil {
 		runtime.LogDebug(a.ctx, err.Error())
@@ -123,9 +133,8 @@ func (a *App) ListComposes() []domain.DcViewerCompose {
 }
 
 func formtDcViewerComposer(name, description, image string) domain.DcViewerCompose {
-	fileName := createFileName()
 	var dcCompose = domain.DcViewerCompose{
-		Name:        fileName,
+		Name:        name,
 		Description: description,
 		Image:       image,
 		CreateAt:    time.Now().Format(time.RFC3339),

@@ -96,8 +96,6 @@ func copyFile(filePath string) error {
 func (a *App) ReadComposeFile(fileName string) (compose *domain.Compose, err error) {
 	yamlFile, err := os.ReadFile(fmt.Sprintf("/Users/dylanbatar/dcviewer/composes/%s", fileName))
 
-	fmt.Printf("%+q", yamlFile)
-
 	if err != nil {
 		runtime.LogDebug(a.ctx, err.Error())
 		return nil, err

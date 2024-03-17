@@ -13,7 +13,6 @@ export const ComposeFile = ({
 
   const openComposeDetail = async () => {
     const data = (await ReadComposeFile(name)) as IComposeDetails;
-    console.log({data});
 
     setComposeFile({
       name,

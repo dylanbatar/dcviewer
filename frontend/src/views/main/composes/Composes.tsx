@@ -3,6 +3,7 @@ import { ComposeFileList } from './components/ComposeFileList';
 import { ComposeDetail } from './components/ComposeDetail';
 import { useComposeStore } from '../../../store/compose.store';
 import { ListComposes } from '../../../../wailsjs/go/main/App';
+import { ICompose } from '../../../interfaces/compose';
 
 export const Composes = () => {
   const { setCollection, collection, compose } = useComposeStore();
@@ -12,14 +13,12 @@ export const Composes = () => {
   const fetchComposes = () => {
     setLoading(true);
     ListComposes()
-      .then((composes) => setCollection(composes))
+      .then((composes: ICompose[]) => setCollection(composes))
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    console.log("hola");
-    
     fetchComposes();
   }, []);
 

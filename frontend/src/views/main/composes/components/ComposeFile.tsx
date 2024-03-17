@@ -1,4 +1,5 @@
-import { ICompose } from '../../../../interfaces/compose';
+import { ReadComposeFile } from '../../../../../wailsjs/go/main/App';
+import { ICompose, IComposeDetails } from '../../../../interfaces/compose';
 import { useComposeStore } from '../../../../store/compose.store';
 
 export const ComposeFile = ({
@@ -10,8 +11,21 @@ export const ComposeFile = ({
 }: ICompose) => {
   const setComposeFile = useComposeStore((state) => state.setCompose);
 
-  const openComposeDetail = () => {
-    setComposeFile({ name, createAt, updateAt });
+  const openComposeDetail = async () => {
+    const data = (await ReadComposeFile(name)) as IComposeDetails;
+    console.log({data});
+
+    setComposeFile({
+      name,
+      description,
+      image,
+      createAt,
+      updateAt,
+      Version: data.Version,
+      Services: data.Services,
+      Volumes: data.Volumes,
+      Networks: data.Networks,
+    });
   };
 
   return (
@@ -32,9 +46,7 @@ export const ComposeFile = ({
           clipRule='evenodd'
         />
       </svg>
-      <p className='text-sm hover:whitespace-normal text-center w-32'>
-        {name}
-      </p>
+      <p className='text-sm hover:whitespace-normal text-center w-32'>{name}</p>
     </div>
   );
 };

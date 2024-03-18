@@ -57,7 +57,7 @@ export interface ServiceConfig {
   Deploy: string;
 }
 
-interface VolumeConfig {
+export interface VolumeConfig {
   Driver: string;
   DriverOpts: { [key: string]: string };
   External: boolean;
@@ -66,7 +66,7 @@ interface VolumeConfig {
   Args: string[];
 }
 
-interface NetworkConfig {
+export interface NetworkConfig {
   Driver: string;
   DriverOpts: { [key: string]: string };
   EnableIPv6: boolean;

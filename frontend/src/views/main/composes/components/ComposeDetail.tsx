@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
-import { IComposeDetails, ServiceConfig } from '../../../../interfaces/compose';
+import {
+  IComposeDetails,
+  NetworkConfig,
+  ServiceConfig,
+  VolumeConfig,
+} from '../../../../interfaces/compose';
 import { useComposeStore } from '../../../../store/compose.store';
 import React, { useEffect, useState } from 'react';
 
@@ -138,18 +143,21 @@ export const ComposeDetail: React.FC<{ compose: IComposeDetails }> = ({
                     <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
                       Volumns
                     </p>
-                    <p className='text-sm truncate text-gray-500 dark:text-gray-400'>
-                      {dayjs(compose.updateAt).format('YYYY-MM-DD')}
-                    </p>
+                    <div className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                      <Volumen volumenObject={ComposeDetail.Volumes} />
+                    </div>
                   </li>
-                  <li>
-                    <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
-                      Networks
-                    </p>
-                    <p className='text-sm truncate text-gray-500 dark:text-gray-400'>
-                      {dayjs(compose.updateAt).format('YYYY-MM-DD')}
-                    </p>
-                  </li>
+                  {
+                    ComposeDetail.Networks &&
+                     <li>
+                     <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                       Networks
+                     </p>
+                     <div className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                       <Network networkObject={ComposeDetail.Networks} />
+                     </div>
+                   </li>
+                  }
                 </ul>
               </div>
             </div>
@@ -160,6 +168,8 @@ export const ComposeDetail: React.FC<{ compose: IComposeDetails }> = ({
   );
 };
 
+// TODO show all propertis for volumens
+// TODO: convert this function into a helper or util
 const Services: React.FC<{
   serviceObject: { [key: string]: ServiceConfig };
 }> = ({ serviceObject }) => {
@@ -264,3 +274,97 @@ const Services: React.FC<{
     </div>
   );
 };
+
+// TODO show all propertis for volumens
+// TODO: convert this function into a helper or util
+const Volumen: React.FC<{
+  volumenObject: { [key: string]: VolumeConfig };
+}> = ({ volumenObject }) => {
+  const [volumen, setVolumen] = useState<any[]>([]);
+
+  const mapVolumEntry = () => {
+    const volumenKeys: any = Object.keys(volumenObject).reduce(
+      (acc, next) => ({
+        ...acc,
+        [next]: next,
+      }),
+      {}
+    );
+
+    for (const key in volumenObject) {
+      const entry = {
+        ...volumenObject[key],
+        name: volumenKeys[key],
+      };
+
+      setVolumen((state) => [...state, entry]);
+    }
+  };
+
+  useEffect(() => {
+    mapVolumEntry();
+    return () => {
+      setVolumen([]);
+    };
+  }, [volumenObject]);
+
+  return (
+    <div>
+      <ul>
+        {volumen.map((vol) => {
+          return <p>- {vol.name}</p>;
+        })}
+      </ul>
+    </div>
+  );
+};
+
+
+// TODO show all propertis for volumens
+// TODO: convert this function into a helper or util
+const Network: React.FC<{
+  networkObject: { [key: string]: NetworkConfig };
+}> = ({ networkObject }) => {
+  const [network, setNetwork] = useState<any[]>([]);
+  console.log(networkObject);
+  
+  
+  // const mapnetworktry = () => {
+  //   const networkKeys: any = Object.keys(networkObject).reduce(
+  //     (acc, next) => ({
+  //       ...acc,
+  //       [next]: next,
+  //     }),
+  //     {}
+  //   );
+
+  //   console.log(networkObject);
+    
+  //   for (const key in networkObject) {
+  //     const entry = {
+  //       ...networkObject[key],
+  //       name: networkKeys[key],
+  //     };
+
+  //     setNetwork((state) => [...state, entry]);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   mapnetworktry();
+  //   return () => {
+  //     setNetwork([]);
+  //   };
+  // }, [networkObject]);
+
+  return (
+    <div>
+      <ul>
+        {network.map((network) => {
+          return <p>- {network.name}</p>;
+        })}
+      </ul>
+    </div>
+  );
+};
+

@@ -326,36 +326,32 @@ const Network: React.FC<{
   networkObject: { [key: string]: NetworkConfig };
 }> = ({ networkObject }) => {
   const [network, setNetwork] = useState<any[]>([]);
-  console.log(networkObject);
-  
-  
-  // const mapnetworktry = () => {
-  //   const networkKeys: any = Object.keys(networkObject).reduce(
-  //     (acc, next) => ({
-  //       ...acc,
-  //       [next]: next,
-  //     }),
-  //     {}
-  //   );
+   
+  const mapnetworktry = () => {
+    const networkKeys: any = Object.keys(networkObject).reduce(
+      (acc, next) => ({
+        ...acc,
+        [next]: next,
+      }),
+      {}
+    );
 
-  //   console.log(networkObject);
-    
-  //   for (const key in networkObject) {
-  //     const entry = {
-  //       ...networkObject[key],
-  //       name: networkKeys[key],
-  //     };
+    for (const key in networkObject) {
+      const entry = {
+        ...networkObject[key],
+        name: networkKeys[key],
+      };
 
-  //     setNetwork((state) => [...state, entry]);
-  //   }
-  // };
+      setNetwork((state) => [...state, entry]);
+    }
+  };
 
-  // useEffect(() => {
-  //   mapnetworktry();
-  //   return () => {
-  //     setNetwork([]);
-  //   };
-  // }, [networkObject]);
+  useEffect(() => {
+    mapnetworktry();
+    return () => {
+      setNetwork([]);
+    };
+  }, [networkObject]);
 
   return (
     <div>

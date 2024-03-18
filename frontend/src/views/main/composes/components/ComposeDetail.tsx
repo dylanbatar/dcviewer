@@ -147,17 +147,16 @@ export const ComposeDetail: React.FC<{ compose: IComposeDetails }> = ({
                       <Volumen volumenObject={ComposeDetail.Volumes} />
                     </div>
                   </li>
-                  {
-                    ComposeDetail.Networks &&
-                     <li>
-                     <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
-                       Networks
-                     </p>
-                     <div className='text-sm truncate text-gray-500 dark:text-gray-400'>
-                       <Network networkObject={ComposeDetail.Networks} />
-                     </div>
-                   </li>
-                  }
+                  {ComposeDetail.Networks && (
+                    <li>
+                      <p className='text-gray-900 mr-2 rounded-lg dark:text-white group'>
+                        Networks
+                      </p>
+                      <div className='text-sm truncate text-gray-500 dark:text-gray-400'>
+                        <Network networkObject={ComposeDetail.Networks} />
+                      </div>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -211,19 +210,18 @@ const Services: React.FC<{
       {serviceEntry.map((service, index) => (
         <ul key={index}>
           <li className='mb-2'>
-            {service.image ? (
-              <details>
-                <summary className='service-with-link cursor-pointer flex justify-between items-center text-gray-500 dark:text-gray-400 hover:text-white'>
-                  <a
-                    className='hover:underline underline-offset-4 w-11/12'
-                    target='_blank'
-                    href={
-                      service.image &&
-                      `https://hub.docker.com/r/${service.name}`
-                    }
-                  >
-                    {service.name}
-                  </a>
+            <details>
+              <summary className='service-with-link cursor-pointer flex justify-between items-center text-gray-500 dark:text-gray-400 hover:text-white'>
+                <a
+                  className='hover:underline underline-offset-4 w-full'
+                  target='_blank'
+                  href={
+                    service.image && `https://hub.docker.com/r/${service.name}`
+                  }
+                >
+                  {service.name}
+                </a>
+                {service.image && (
                   <svg
                     width='20px'
                     height='20px'
@@ -242,32 +240,26 @@ const Services: React.FC<{
                       />
                     </g>
                   </svg>
-                </summary>
-                <p>Ports {service.ports}</p>
-                {service.Environment && (
-                  <div>
-                    <h3>Environments</h3>
-                    {service.Environment.map(
-                      (secret: string, index: number) => {
-                        return <span key={index}>- {secret}</span>;
-                      }
-                    )}
-                  </div>
                 )}
-                {service.Volumes && (
-                  <div>
-                    <h3>Volumes</h3>
-                    {service.Volumes.map((vol: string, index: number) => {
-                      return <span key={index}>- {vol}</span>;
-                    })}
-                  </div>
-                )}
-              </details>
-            ) : (
-              <div className='flex justify-between text-gray-500 dark:text-gray-400 hover:text-white'>
-                <p>{service.name}</p>
-              </div>
-            )}
+              </summary>
+              <p>Ports {service.ports}</p>
+              {service.Environment && (
+                <div>
+                  <h3>Environments</h3>
+                  {service.Environment.map((secret: string, index: number) => {
+                    return <span key={index}>- {secret}</span>;
+                  })}
+                </div>
+              )}
+              {service.Volumes && (
+                <div>
+                  <h3>Volumes</h3>
+                  {service.Volumes.map((vol: string, index: number) => {
+                    return <span key={index}>- {vol}</span>;
+                  })}
+                </div>
+              )}
+            </details>
           </li>
         </ul>
       ))}
@@ -319,14 +311,13 @@ const Volumen: React.FC<{
   );
 };
 
-
 // TODO show all propertis for volumens
 // TODO: convert this function into a helper or util
 const Network: React.FC<{
   networkObject: { [key: string]: NetworkConfig };
 }> = ({ networkObject }) => {
   const [network, setNetwork] = useState<any[]>([]);
-   
+
   const mapnetworktry = () => {
     const networkKeys: any = Object.keys(networkObject).reduce(
       (acc, next) => ({
@@ -363,4 +354,3 @@ const Network: React.FC<{
     </div>
   );
 };
-
